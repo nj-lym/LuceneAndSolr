@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lym.dao.SearchDao">
+
+    <resultMap type="com.lym.entity.Search" id="SearchMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="introduce" column="introduce" jdbcType="VARCHAR"/>
+        <result property="classification" column="classification" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="number" column="number" jdbcType="VARCHAR"/>
+        <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SearchMap">
+        SELECT
+            id ,
+            introduce ,
+            classification ,
+            price ,
+            address ,
+            number ,
+            updateTime
+        FROM test.search
+        WHERE id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SearchMap">
+        SELECT
+            id ,
+            introduce ,
+            classification ,
+            price ,
+            address ,
+            number ,
+            updateTime
+        FROM search
+             limit #{offset} , #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SearchMap">
+        select
+        id, introduce, classification, price, address, number, updateTime
+        from test.search
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="introduce != null and introduce != ''">
+                and introduce = #{introduce}
+            </if>
+            <if test="classification != null and classification != ''">
+                and classification = #{classification}
+            </if>
+            <if test="price != null and price != ''">
+                and price = #{price}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="number != null and number != ''">
+                and number = #{number}
+            </if>
+            <if test="updatetime != null">
+                and updateTime = #{updatetime}
+            </if>
+        </where>
+    </select>
+
+    <select id="findAll" resultMap="SearchMap">
+        SELECT *
+        from search
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO test.search (introduce , classification , price , address , number , updateTime)
+        VALUES ( #{introduce} , #{classification} , #{price} , #{address} , #{number} , #{updatetime} )
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update test.search
+        <set>
+            <if test="introduce != null and introduce != ''">
+                introduce = #{introduce},
+            </if>
+            <if test="classification != null and classification != ''">
+                classification = #{classification},
+            </if>
+            <if test="price != null and price != ''">
+                price = #{price},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="number != null and number != ''">
+                number = #{number},
+            </if>
+            <if test="updatetime != null">
+                updateTime = #{updatetime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        DELETE FROM test.search
+        WHERE id = #{id}
+    </delete>
+
+
+</mapper>
