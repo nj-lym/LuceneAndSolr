@@ -46,7 +46,7 @@ public class SearchdemoApplicationTests
     @Test
     void contextLoads() throws IOException, ParseException
     {
-        String fileName = "D:\\Idea_Project\\searchdemo\\相关\\hello140k.txt";
+        String fileName = "hello140k.txt";
         BufferedReader buf = new BufferedReader(new FileReader(fileName));
         List<Search> searchList = new ArrayList<>();
         List<String> content = new ArrayList<>();
